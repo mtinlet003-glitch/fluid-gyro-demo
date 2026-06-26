@@ -205,9 +205,9 @@ function vitePluginStorageProxy(): Plugin {
 
 const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
 
-export default defineConfig({
-  // Relative base so the build also works when served from a GitHub Pages subpath (/<repo>/)
-  base: "./",
+export default defineConfig(({ command }) => ({
+  // GitHub Pages serves from /<repo>/ in production; dev server stays at root.
+  base: command === "build" ? "/fluid-gyro-demo/" : "/",
   plugins,
   resolve: {
     alias: {
@@ -240,4 +240,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));
